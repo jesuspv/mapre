@@ -1,0 +1,115 @@
+#!/bin/bash
+
+#######################################
+# Constants
+#######################################
+
+SCRIPT=$(basename $(readlink -f $BASH_SOURCE))
+VERSION=0.0.0
+
+#######################################
+# Logic
+#######################################
+
+# $1: external program
+# $2: regular expression
+# $3: file
+function run()
+{
+   awk -v fun=$1 -v re=$2 '
+function search_matches(line) {
+   where = match(line, re)
+   if (where != 0) {
+      fun " " substr(line, where, RLENGTH) | getline repl
+      return substr(line, 0, where-1) repl search_matches(substr(line, where+RLENGTH))
+   }
+   else {
+      return line
+   }
+}
+
+{
+   print search_matches($0)
+}
+' $3 
+}
+
+#######################################
+# CLI
+#######################################
+
+function print-help()
+{
+   cat <<EOF
+NAME
+   $SCRIPT - custom string replacement
+
+SYNOPSIS
+   $SCRIPT program regex [file]
+
+VERSION
+   $VERSION
+
+DESCRIPTION
+   The $SCRIPT utility replaces each string matching a regular expression
+   by the output of calling program with the matched string.
+
+   If a file is not provided, standard input is used instead.
+
+OPTIONS:
+   -h, --help                 display this help
+   -v, --version              display program version
+EOF
+}
+
+function print-version()
+{
+   echo "$SCRIPT version $VERSION"
+}
+
+# $*: command line arguments
+function main()
+{
+   # parse optional args
+   while [[ $1 =~ ^- ]]; do
+      case $1 in
+         -h|--help)
+            print-help
+            exit 0
+            ;;
+         -v|--version)
+            print-version
+            exit 0
+            ;;
+         *)
+            echo "error: unknown option $1" >&2
+            exit 1
+            ;;
+      esac
+      shift
+   done
+
+   # parse positional args
+   local PROGRAM=$1
+   local REGEXP=$2
+   local FILE=$3
+
+   if [[ -z $PROGRAM ]]; then
+      echo "error: program not unspecified" >&2
+      exit 1
+   fi
+
+   if [[ -z $REGEXP ]]; then
+      echo "error: regular expression unspecified" >&2
+      exit 1
+   fi
+
+   if [[ -n $FILE ]] && [[ ! -f $FILE ]]; then
+      echo "error: $FILE is not a file" >&2
+      exit 1
+   fi
+
+   run $PROGRAM $REGEXP $FILE
+}
+
+main $*
