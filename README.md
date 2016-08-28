@@ -1,0 +1,2 @@
+# mapre
+custom string replacement
