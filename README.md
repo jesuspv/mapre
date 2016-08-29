@@ -1,3 +1,13 @@
+## Installation
+
+Just make the script accessible in your PATH.
+
+## Development
+
+Run `bumpversion` to bump the software version.
+
+## Help
+
 NAME
    mapre - custom string replacement
 
@@ -5,7 +15,7 @@ SYNOPSIS
    mapre program regex [file]
 
 VERSION
-   0.0.0
+   0.0.1
 
 DESCRIPTION
    The mapre utility replaces each string matching a regular expression
