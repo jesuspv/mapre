@@ -1,6 +1,6 @@
 ## Installation
 
-Just make the script accessible in your PATH.
+Just make the script accessible in your `PATH`.
 
 ## Development
 
@@ -8,6 +8,7 @@ Run `bumpversion` to bump the software version.
 
 ## Help
 
+```
 NAME
    mapre - custom string replacement
 
@@ -26,3 +27,4 @@ DESCRIPTION
 OPTIONS:
    -h, --help                 display this help
    -v, --version              display program version
+```
