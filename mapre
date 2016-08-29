@@ -4,8 +4,8 @@
 # Constants
 #######################################
 
-SCRIPT=$(basename $(readlink -f $BASH_SOURCE))
-VERSION=0.0.1
+readonly SCRIPT=$(basename $(readlink -f $BASH_SOURCE))
+readonly VERSION=0.0.1
 
 #######################################
 # Logic
@@ -90,9 +90,9 @@ function main()
    done
 
    # parse positional args
-   local PROGRAM=$1
-   local REGEXP=$2
-   local FILE=$3
+   local -r PROGRAM=$1
+   local -r REGEXP=$2
+   local -r FILE=$3
 
    if [[ -z $PROGRAM ]]; then
       echo "error: program not unspecified" >&2
