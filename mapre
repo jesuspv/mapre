@@ -5,7 +5,7 @@
 #######################################
 
 readonly SCRIPT=$(basename $(readlink -f $BASH_SOURCE))
-readonly VERSION=0.1.0
+readonly VERSION=0.0.1
 
 #######################################
 # Logic
