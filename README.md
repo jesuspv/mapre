@@ -16,7 +16,7 @@ SYNOPSIS
    mapre program regex [file]
 
 VERSION
-   0.0.1
+   0.0.2
 
 DESCRIPTION
    The mapre utility replaces each string matching a regular expression
